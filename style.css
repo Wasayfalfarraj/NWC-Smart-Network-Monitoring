@@ -1145,3 +1145,13 @@ footer {
         gap: 8px;
     }
 }
+#welcome-screen {
+    pointer-events: auto;
+}
+
+#welcome-screen button {
+    position: relative;
+    z-index: 10000;
+    pointer-events: auto;
+    cursor: pointer;
+}
