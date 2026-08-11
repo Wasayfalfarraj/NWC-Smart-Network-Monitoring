@@ -582,6 +582,9 @@ document
                             100
                         )
                 );
+           function enterDashboard() {
+    document.getElementById("welcome-screen").style.display = "none";
+}
 
 
             networkChart.update();
