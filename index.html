@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NWC Smart Network Monitoring</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">💧</div>
+
+            <div>
+                <h2>NWC</h2>
+                <span>Smart Monitoring</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <button class="nav-item active" onclick="showPage('overview', this)">
+                <span>⌂</span>
+                Overview
+            </button>
+
+            <button class="nav-item" onclick="showPage('devices', this)">
+                <span>◉</span>
+                Devices
+            </button>
+
+            <button class="nav-item" onclick="showPage('alerts', this)">
+                <span>⚠</span>
+                Alerts
+            </button>
+
+            <button class="nav-item" onclick="showPage('simulator', this)">
+                <span>⚡</span>
+                Failure Simulator
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="online">
+                <span class="online-dot"></span>
+                System Online
+            </div>
+
+            <small>
+                AI Engine<br>
+                Isolation Forest
+            </small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <p class="eyebrow">NETWORK OPERATIONS CENTER</p>
+
+                <h1>
+                    NWC Smart Network Monitoring
+                </h1>
+
+                <p class="subtitle">
+                    AI-powered network anomaly detection & incident analysis
+                </p>
+            </div>
+
+            <div class="system-status">
+                <span class="online-dot"></span>
+                LIVE MONITORING
+            </div>
+
+        </header>
+
+
+        <!-- OVERVIEW -->
+        <section id="overview" class="page active-page">
+
+            <!-- METRICS -->
+            <div class="metrics">
+
+                <div class="metric">
+                    <div class="metric-label">
+                        NETWORK HEALTH
+                    </div>
+
+                    <div class="metric-value">
+                        96<span>/100</span>
+                    </div>
+
+                    <div class="positive">
+                        ● Stable
+                    </div>
+                </div>
+
+
+                <div class="metric">
+
+                    <div class="metric-label">
+                        ACTIVE ALERTS
+                    </div>
+
+                    <div class="metric-value" id="alertCount">
+                        3
+                    </div>
+
+                    <div class="negative">
+                        ● Requires attention
+                    </div>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <div class="metric-label">
+                        NETWORK DEVICES
+                    </div>
+
+                    <div class="metric-value">
+                        7
+                    </div>
+
+                    <div class="positive">
+                        ● Connected
+                    </div>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <div class="metric-label">
+                        AI DETECTION
+                    </div>
+
+                    <div class="metric-value">
+                        98.4<span>%</span>
+                    </div>
+
+                    <div class="positive">
+                        ● Model active
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOPOLOGY + ALERTS -->
+            <div class="grid-2">
+
+                <!-- TOPOLOGY -->
+                <div class="card topology-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <p class="card-kicker">
+                                NETWORK MAP
+                            </p>
+
+                            <h2>
+                                Network Topology
+                            </h2>
+                        </div>
+
+                        <span class="badge green">
+                            7 Devices
+                        </span>
+
+                    </div>
+
+
+                    <div class="topology">
+
+                        <div class="topology-row">
+
+                            <div class="device core" id="R1-CORE">
+                                <div class="device-circle">C</div>
+
+                                <strong>R1-CORE</strong>
+
+                                <span>CORE ROUTER</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="connections">
+
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+
+                        </div>
+
+
+                        <div class="topology-row branches">
+
+                            <div class="device normal" id="R2-RIYADH">
+
+                                <div class="device-circle">
+                                    R
+                                </div>
+
+                                <strong>R2-RIYADH</strong>
+
+                                <span>BRANCH</span>
+
+                            </div>
+
+
+                            <div class="device normal" id="R3-QASSIM">
+
+                                <div class="device-circle">
+                                    Q
+                                </div>
+
+                                <strong>R3-QASSIM</strong>
+
+                                <span>BRANCH</span>
+
+                            </div>
+
+
+                            <div class="device normal" id="R4-HAIL">
+
+                                <div class="device-circle">
+                                    H
+                                </div>
+
+                                <strong>R4-HAIL</strong>
+
+                                <span>BRANCH</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="legend">
+
+                        <span>
+                            <i class="dot green-dot"></i>
+                            Normal
+                        </span>
+
+                        <span>
+                            <i class="dot red-dot"></i>
+                            Critical
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS -->
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <p class="card-kicker">
+                                REAL-TIME
+                            </p>
+
+                            <h2>
+                                Active Alerts
+                            </h2>
+
+                        </div>
+
+                        <span class="badge red">
+                            3 Alerts
+                        </span>
+
+                    </div>
+
+
+                    <div id="alertsList">
+
+                        <div class="alert critical">
+
+                            <div class="alert-icon">
+                                !
+                            </div>
+
+                            <div class="alert-content">
+
+                                <strong>
+                                    R4-HAIL
+                                </strong>
+
+                                <p>
+                                    High CPU detected
+                                </p>
+
+                                <small>
+                                    Risk Score: 87/100
+                                </small>
+
+                            </div>
+
+                            <span class="alert-time">
+                                2m
+                            </span>
+
+                        </div>
+
+
+                        <div class="alert warning">
+
+                            <div class="alert-icon">
+                                !
+                            </div>
+
+                            <div class="alert-content">
+
+                                <strong>
+                                    SW-QASSIM
+                                </strong>
+
+                                <p>
+                                    Packet Loss
+                                </p>
+
+                                <small>
+                                    Risk Score: 62/100
+                                </small>
+
+                            </div>
+
+                            <span class="alert-time">
+                                8m
+                            </span>
+
+                        </div>
+
+
+                        <div class="alert warning">
+
+                            <div class="alert-icon">
+                                !
+                            </div>
+
+                            <div class="alert-content">
+
+                                <strong>
+                                    R1-CORE
+                                </strong>
+
+                                <p>
+                                    High Latency
+                                </p>
+
+                                <small>
+                                    Risk Score: 48/100
+                                </small>
+
+                            </div>
+
+                            <span class="alert-time">
+                                14m
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE -->
+            <div class="card performance-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <p class="card-kicker">
+                            PERFORMANCE
+                        </p>
+
+                        <h2>
+                            Network Performance
+                        </h2>
+
+                    </div>
+
+                    <select id="chartDevice">
+
+                        <option>R1-CORE</option>
+                        <option>R2-RIYADH</option>
+                        <option>R3-QASSIM</option>
+                        <option>R4-HAIL</option>
+
+                    </select>
+
+                </div>
+
+                <canvas id="networkChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEVICES -->
+        <section id="devices" class="page">
+
+            <div class="section-title">
+
+                <p class="card-kicker">
+                    INFRASTRUCTURE
+                </p>
+
+                <h2>
+                    Network Devices
+                </h2>
+
+                <p>
+                    Monitor the health of connected network devices.
+                </p>
+
+            </div>
+
+
+            <div class="device-grid">
+
+                <div class="device-card">
+
+                    <div class="device-card-top">
+
+                        <div class="device-mini normal-bg">
+                            C
+                        </div>
+
+                        <span class="status-pill normal-pill">
+                            ● Online
+                        </span>
+
+                    </div>
+
+                    <h3>R1-CORE</h3>
+
+                    <p>Core Router</p>
+
+                    <div class="device-stat">
+                        <span>CPU</span>
+                        <strong>34%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:34%"></div>
+                    </div>
+
+                    <div class="device-stat">
+                        <span>Memory</span>
+                        <strong>48%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:48%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="device-card">
+
+                    <div class="device-card-top">
+
+                        <div class="device-mini normal-bg">
+                            R
+                        </div>
+
+                        <span class="status-pill normal-pill">
+                            ● Online
+                        </span>
+
+                    </div>
+
+                    <h3>R2-RIYADH</h3>
+
+                    <p>Branch Router</p>
+
+                    <div class="device-stat">
+                        <span>CPU</span>
+                        <strong>41%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:41%"></div>
+                    </div>
+
+                    <div class="device-stat">
+                        <span>Memory</span>
+                        <strong>52%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:52%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="device-card">
+
+                    <div class="device-card-top">
+
+                        <div class="device-mini normal-bg">
+                            Q
+                        </div>
+
+                        <span class="status-pill normal-pill">
+                            ● Online
+                        </span>
+
+                    </div>
+
+                    <h3>R3-QASSIM</h3>
+
+                    <p>Branch Router</p>
+
+                    <div class="device-stat">
+                        <span>CPU</span>
+                        <strong>38%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:38%"></div>
+                    </div>
+
+                    <div class="device-stat">
+                        <span>Memory</span>
+                        <strong>46%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:46%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="device-card critical-card" id="hailCard">
+
+                    <div class="device-card-top">
+
+                        <div class="device-mini critical-bg">
+                            H
+                        </div>
+
+                        <span class="status-pill critical-pill">
+                            ● Alert
+                        </span>
+
+                    </div>
+
+                    <h3>R4-HAIL</h3>
+
+                    <p>Branch Router</p>
+
+                    <div class="device-stat">
+                        <span>CPU</span>
+                        <strong id="hailCPU">96%</strong>
+                    </div>
+
+                    <div class="progress danger">
+                        <div id="hailBar" style="width:96%"></div>
+                    </div>
+
+                    <div class="device-stat">
+                        <span>Risk</span>
+                        <strong id="hailRisk">87/100</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ALERTS -->
+        <section id="alerts" class="page">
+
+            <div class="section-title">
+
+                <p class="card-kicker">
+                    INCIDENT CENTER
+                </p>
+
+                <h2>
+                    Network Alerts
+                </h2>
+
+                <p>
+                    AI-detected incidents and recommended actions.
+                </p>
+
+            </div>
+
+
+            <div class="incident-table">
+
+                <div class="table-header">
+
+                    <span>DEVICE</span>
+                    <span>ISSUE</span>
+                    <span>RISK</span>
+                    <span>STATUS</span>
+
+                </div>
+
+
+                <div class="table-row">
+
+                    <strong>R4-HAIL</strong>
+
+                    <span>
+                        High CPU
+                    </span>
+
+                    <b class="risk-high">
+                        87/100
+                    </b>
+
+                    <span class="status-pill critical-pill">
+                        Critical
+                    </span>
+
+                </div>
+
+
+                <div class="table-row">
+
+                    <strong>SW-QASSIM</strong>
+
+                    <span>
+                        Packet Loss
+                    </span>
+
+                    <b class="risk-medium">
+                        62/100
+                    </b>
+
+                    <span class="status-pill warning-pill">
+                        High
+                    </span>
+
+                </div>
+
+
+                <div class="table-row">
+
+                    <strong>R1-CORE</strong>
+
+                    <span>
+                        High Latency
+                    </span>
+
+                    <b class="risk-medium">
+                        48/100
+                    </b>
+
+                    <span class="status-pill warning-pill">
+                        Medium
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SIMULATOR -->
+        <section id="simulator" class="page">
+
+            <div class="section-title">
+
+                <p class="card-kicker">
+                    AI SIMULATION LAB
+                </p>
+
+                <h2>
+                    Live Failure Simulator
+                </h2>
+
+                <p>
+                    Inject a network failure and observe how the AI
+                    monitoring system responds.
+                </p>
+
+            </div>
+
+
+            <div class="simulator-grid">
+
+                <div class="card simulator-controls">
+
+                    <h3>
+                        ⚡ Inject Network Failure
+                    </h3>
+
+                    <label>
+                        Network Device
+                    </label>
+
+                    <select id="deviceSelect">
+
+                        <option>R1-CORE</option>
+                        <option>R2-RIYADH</option>
+                        <option>R3-QASSIM</option>
+                        <option>R4-HAIL</option>
+
+                    </select>
+
+
+                    <label>
+                        Failure Type
+                    </label>
+
+                    <select id="failureSelect">
+
+                        <option value="normal">
+                            Normal
+                        </option>
+
+                        <option value="cpu">
+                            High CPU
+                        </option>
+
+                        <option value="memory">
+                            High Memory
+                        </option>
+
+                        <option value="latency">
+                            High Latency
+                        </option>
+
+                        <option value="loss">
+                            Packet Loss
+                        </option>
+
+                        <option value="errors">
+                            Interface Errors
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="analyze-btn"
+                        onclick="analyzeFailure()"
+                    >
+                        🚨 ANALYZE NETWORK
+                    </button>
+
+                </div>
+
+
+                <div class="card diagnosis-card">
+
+                    <div class="diagnosis-header">
+
+                        <div>
+
+                            <p class="card-kicker">
+                                AI DIAGNOSIS
+                            </p>
+
+                            <h2 id="diagnosisTitle">
+                                System Ready
+                            </h2>
+
+                        </div>
+
+                        <div
+                            id="diagnosisStatus"
+                            class="diagnosis-status normal-status"
+                        >
+                            ● NORMAL
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-display">
+
+                        <div>
+
+                            <span>
+                                Risk Score
+                            </span>
+
+                            <strong id="riskScore">
+                                0
+                            </strong>
+
+                            <small>
+                                / 100
+                            </small>
+
+                        </div>
+
+                        <div class="risk-circle">
+                            AI
+                        </div>
+
+                    </div>
+
+
+                    <div class="diagnosis-box">
+
+                        <h4>
+                            What happened?
+                        </h4>
+
+                        <p id="diagnosisText">
+                            Select a failure scenario and run
+                            the analysis to see the AI diagnosis.
+                        </p>
+
+                    </div>
+
+
+                    <div class="recommendation">
+
+                        <h4>
+                            🛠 Recommended Action
+                        </h4>
+
+                        <p id="recommendationText">
+                            No action required.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            <span>
+                NWC Smart Network Monitoring
+            </span>
+
+            <span>
+                Computer Engineering • Network Engineering
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
