@@ -7,7 +7,7 @@
 /* =====================================================
    PAGE NAVIGATION
 ===================================================== */
-const AI_API_URL ="https://nwc-smart-network-monitoring.onrender.com/";
+const AI_API_URL ="https://nwc-smart-network-monitoring.onrender.com";
 function showPage(pageId, button) {
 
     document
