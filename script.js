@@ -7,7 +7,7 @@
 /* =====================================================
    PAGE NAVIGATION
 ===================================================== */
-
+const AI_API_URL ="https://nwc-smart-network-monitoring.onrender.com/";
 function showPage(pageId, button) {
 
     document
@@ -164,260 +164,388 @@ const networkChart =
 /* =====================================================
    FAILURE SIMULATOR
 ===================================================== */
-
-function analyzeFailure() {
+async function analyzeFailure() {
 
     const device =
-        document.getElementById(
-            "deviceSelect"
-        ).value;
-
+        document.getElementById("deviceSelect").value;
 
     const failure =
-        document.getElementById(
-            "failureSelect"
-        ).value;
+        document.getElementById("failureSelect").value;
 
 
-    let risk = 0;
+    // ==========================================
+    // NETWORK DATA FOR AI
+    // ==========================================
 
-    let issue = "Normal";
-
-    let diagnosis =
-        "No significant network anomaly detected.";
-
-    let recommendation =
-        "No immediate action required. Continue monitoring.";
-
-    let status =
-        "● NORMAL";
+    let networkData = {
+        cpu_usage: 35,
+        memory_usage: 45,
+        bandwidth_mbps: 100,
+        latency_ms: 20,
+        packet_loss_percent: 0.5,
+        interface_errors: 1
+    };
 
 
-    /* -------------------------------
-       NORMAL
-    -------------------------------- */
+    // ==========================================
+    // FAILURE SIMULATION
+    // ==========================================
 
-    if (failure === "normal") {
+    if (failure === "cpu") {
 
-        risk = 0;
-
-        issue = "Normal";
-
-        diagnosis =
-            device +
-            " is operating within normal performance thresholds.";
-
-        recommendation =
-            "Continue normal monitoring.";
+        networkData.cpu_usage = 97;
+        networkData.memory_usage = 53;
+        networkData.bandwidth_mbps = 104;
+        networkData.latency_ms = 21;
+        networkData.packet_loss_percent = 0.2;
+        networkData.interface_errors = 1;
 
     }
-
-
-    /* -------------------------------
-       HIGH CPU
-    -------------------------------- */
-
-    else if (failure === "cpu") {
-
-        risk = 87;
-
-        issue = "High CPU";
-
-        diagnosis =
-            "The AI detected abnormal CPU utilization on " +
-            device +
-            ". The device may be experiencing excessive " +
-            "processing load or abnormal traffic.";
-
-        recommendation =
-            "Inspect CPU-intensive processes, traffic load, " +
-            "and current network utilization.";
-
-    }
-
-
-    /* -------------------------------
-       HIGH MEMORY
-    -------------------------------- */
 
     else if (failure === "memory") {
 
-        risk = 78;
-
-        issue = "High Memory";
-
-        diagnosis =
-            "Memory utilization has exceeded the normal " +
-            "operating threshold.";
-
-        recommendation =
-            "Inspect memory-consuming processes and applications.";
+        networkData.cpu_usage = 42;
+        networkData.memory_usage = 92;
+        networkData.bandwidth_mbps = 98;
+        networkData.latency_ms = 22;
+        networkData.packet_loss_percent = 0.4;
+        networkData.interface_errors = 1;
 
     }
-
-
-    /* -------------------------------
-       HIGH LATENCY
-    -------------------------------- */
 
     else if (failure === "latency") {
 
-        risk = 72;
-
-        issue = "High Latency";
-
-        diagnosis =
-            "The AI detected abnormal network latency. " +
-            "This may indicate congestion, routing problems, " +
-            "or an overloaded interface.";
-
-        recommendation =
-            "Check routing paths, congestion, and interface utilization.";
+        networkData.cpu_usage = 38;
+        networkData.memory_usage = 46;
+        networkData.bandwidth_mbps = 95;
+        networkData.latency_ms = 420;
+        networkData.packet_loss_percent = 0.6;
+        networkData.interface_errors = 2;
 
     }
-
-
-    /* -------------------------------
-       PACKET LOSS
-    -------------------------------- */
 
     else if (failure === "loss") {
 
-        risk = 82;
-
-        issue = "Packet Loss";
-
-        diagnosis =
-            "Abnormal packet loss was detected. " +
-            "This may indicate link degradation, congestion, " +
-            "or interface problems.";
-
-        recommendation =
-            "Inspect interface errors, link quality, and congestion.";
+        networkData.cpu_usage = 41;
+        networkData.memory_usage = 48;
+        networkData.bandwidth_mbps = 87;
+        networkData.latency_ms = 24;
+        networkData.packet_loss_percent = 25;
+        networkData.interface_errors = 2;
 
     }
-
-
-    /* -------------------------------
-       INTERFACE ERRORS
-    -------------------------------- */
 
     else if (failure === "errors") {
 
-        risk = 91;
-
-        issue = "Interface Errors";
-
-        diagnosis =
-            "A high number of interface errors was detected. " +
-            "This could indicate a physical link or interface issue.";
-
-        recommendation =
-            "Inspect the physical interface, cable, duplex settings, " +
-            "and link configuration.";
+        networkData.cpu_usage = 39;
+        networkData.memory_usage = 44;
+        networkData.bandwidth_mbps = 91;
+        networkData.latency_ms = 21;
+        networkData.packet_loss_percent = 0.5;
+        networkData.interface_errors = 90;
 
     }
 
 
-    /* =================================================
-       UPDATE UI
-    ================================================= */
+    // ==========================================
+    // SHOW ANALYZING STATE
+    // ==========================================
 
-    document.getElementById(
-        "diagnosisTitle"
-    ).innerText = issue;
+    document.getElementById("diagnosisTitle").innerText =
+        "AI ANALYZING...";
 
+    document.getElementById("diagnosisText").innerText =
+        "Isolation Forest is analyzing network telemetry...";
 
-    document.getElementById(
-        "riskScore"
-    ).innerText = risk;
-
-
-    document.getElementById(
-        "diagnosisText"
-    ).innerText = diagnosis;
-
-
-    document.getElementById(
-        "recommendationText"
-    ).innerText = recommendation;
+    document.getElementById("recommendationText").innerText =
+        "Please wait for the AI prediction.";
 
 
     const statusBox =
-        document.getElementById(
-            "diagnosisStatus"
+        document.getElementById("diagnosisStatus");
+
+    statusBox.className = "diagnosis-status";
+    statusBox.innerText = "● ANALYZING";
+
+
+    // ==========================================
+    // SEND DATA TO REAL AI
+    // ==========================================
+
+    try {
+
+        const response = await fetch(
+            `${AI_API_URL}/predict`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(networkData)
+            }
         );
 
 
-    statusBox.className =
-        "diagnosis-status";
-
-
-    /* =================================================
-       STATUS LEVEL
-    ================================================= */
-
-    if (risk >= 75) {
-
-        statusBox.classList.add(
-            "critical-status"
-        );
-
-        statusBox.innerText =
-            "● CRITICAL";
-
-    }
-
-    else if (risk >= 45) {
-
-        statusBox.classList.add(
-            "warning-status"
-        );
-
-        statusBox.innerText =
-            "● HIGH RISK";
-
-    }
-
-    else {
-
-        statusBox.classList.add(
-            "normal-status"
-        );
-
-        statusBox.innerText =
-            "● NORMAL";
-    }
-
-
-    /* =================================================
-       UPDATE TOPOLOGY
-    ================================================= */
-
-    const deviceElement =
-        document.getElementById(device);
-
-
-    if (deviceElement) {
-
-        deviceElement.classList.remove(
-            "normal",
-            "critical"
-        );
-
-
-        if (risk >= 75) {
-
-            deviceElement.classList.add(
-                "critical"
+        if (!response.ok) {
+            throw new Error(
+                `AI API Error: ${response.status}`
             );
+        }
+
+
+        const result = await response.json();
+
+
+        console.log("AI RESULT:", result);
+
+
+        // ==========================================
+        // AI RESULT
+        // ==========================================
+
+        const risk =
+            Math.round(result.risk_score);
+
+        const isAnomaly =
+            result.status === "ANOMALY";
+
+
+        let issue = "Normal";
+
+        let diagnosis =
+            "No significant network anomaly detected.";
+
+        let recommendation =
+            "No immediate action required. Continue monitoring.";
+
+
+        // ==========================================
+        // DETERMINE ISSUE
+        // ==========================================
+
+        if (failure === "cpu") {
+
+            issue = "High CPU";
+
+            diagnosis =
+                `The AI analyzed ${device} and detected abnormal CPU behavior. ` +
+                `CPU utilization: ${networkData.cpu_usage}%.`;
+
+            recommendation =
+                "Inspect CPU-intensive processes, traffic load, and network utilization.";
+
+        }
+
+        else if (failure === "memory") {
+
+            issue = "High Memory";
+
+            diagnosis =
+                `The AI analyzed ${device} and detected abnormal memory behavior. ` +
+                `Memory utilization: ${networkData.memory_usage}%.`;
+
+            recommendation =
+                "Inspect memory-consuming processes and applications.";
+
+        }
+
+        else if (failure === "latency") {
+
+            issue = "High Latency";
+
+            diagnosis =
+                `The AI detected abnormal latency on ${device}. ` +
+                `Measured latency: ${networkData.latency_ms} ms.`;
+
+            recommendation =
+                "Check routing paths, congestion, and interface utilization.";
+
+        }
+
+        else if (failure === "loss") {
+
+            issue = "Packet Loss";
+
+            diagnosis =
+                `The AI detected abnormal packet loss on ${device}. ` +
+                `Packet loss: ${networkData.packet_loss_percent}%.`;
+
+            recommendation =
+                "Inspect interface errors, link quality, and network congestion.";
+
+        }
+
+        else if (failure === "errors") {
+
+            issue = "Interface Errors";
+
+            diagnosis =
+                `The AI detected abnormal interface behavior on ${device}. ` +
+                `Interface errors: ${networkData.interface_errors}.`;
+
+            recommendation =
+                "Inspect the physical interface, cable, duplex settings, and link configuration.";
 
         }
 
         else {
 
-            deviceElement.classList.add(
-                "normal"
+            issue = isAnomaly
+                ? "AI Detected Anomaly"
+                : "Normal";
+
+            diagnosis =
+                isAnomaly
+                    ? `The Isolation Forest model detected abnormal network behavior on ${device}.`
+                    : `${device} is operating within normal network behavior.`;
+
+            recommendation =
+                isAnomaly
+                    ? "Investigate the affected network metrics and device configuration."
+                    : "Continue normal monitoring.";
+
+        }
+
+
+        // ==========================================
+        // UPDATE DASHBOARD
+        // ==========================================
+
+        document.getElementById(
+            "diagnosisTitle"
+        ).innerText = issue;
+
+
+        document.getElementById(
+            "riskScore"
+        ).innerText = risk;
+
+
+        document.getElementById(
+            "diagnosisText"
+        ).innerText = diagnosis;
+
+
+        document.getElementById(
+            "recommendationText"
+        ).innerText = recommendation;
+
+
+        // ==========================================
+        // STATUS
+        // ==========================================
+
+        statusBox.className =
+            "diagnosis-status";
+
+
+        if (isAnomaly || risk >= 75) {
+
+            statusBox.classList.add(
+                "critical-status"
+            );
+
+            statusBox.innerText =
+                "● AI ANOMALY DETECTED";
+
+        }
+
+        else if (risk >= 45) {
+
+            statusBox.classList.add(
+                "warning-status"
+            );
+
+            statusBox.innerText =
+                "● AI WARNING";
+
+        }
+
+        else {
+
+            statusBox.classList.add(
+                "normal-status"
+            );
+
+            statusBox.innerText =
+                "● AI NORMAL";
+
+        }
+
+
+        // ==========================================
+        // UPDATE TOPOLOGY
+        // ==========================================
+
+        const deviceElement =
+            document.getElementById(device);
+
+
+        if (deviceElement) {
+
+            deviceElement.classList.remove(
+                "normal",
+                "critical"
+            );
+
+
+            if (isAnomaly || risk >= 75) {
+
+                deviceElement.classList.add(
+                    "critical"
+                );
+
+            }
+
+            else {
+
+                deviceElement.classList.add(
+                    "normal"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // UPDATE HAIL CARD
+        // ==========================================
+
+        if (device === "R4-HAIL") {
+
+            document.getElementById(
+                "hailCPU"
+            ).innerText =
+                networkData.cpu_usage + "%";
+
+
+            document.getElementById(
+                "hailRisk"
+            ).innerText =
+                risk + "/100";
+
+
+            document.getElementById(
+                "hailBar"
+            ).style.width =
+                Math.min(risk, 100) + "%";
+
+        }
+
+
+        // ==========================================
+        // ADD ALERT
+        // ==========================================
+
+        if (isAnomaly || risk >= 45) {
+
+            addAlert(
+                device,
+                issue,
+                risk
             );
 
         }
@@ -425,57 +553,42 @@ function analyzeFailure() {
     }
 
 
-    /* =================================================
-       UPDATE HAIL CARD
-    ================================================= */
+    catch (error) {
 
-    if (device === "R4-HAIL") {
-
-        document.getElementById(
-            "hailCPU"
-        ).innerText =
-            failure === "cpu"
-                ? "96%"
-                : "40%";
-
-
-        document.getElementById(
-            "hailRisk"
-        ).innerText =
-            risk + "/100";
-
-
-        document.getElementById(
-            "hailBar"
-        ).style.width =
-            failure === "cpu"
-                ? "96%"
-                : "40%";
-
-    }
-
-
-    /* =================================================
-       ADD ALERT
-    ================================================= */
-
-    if (risk >= 45) {
-
-        addAlert(
-            device,
-            issue,
-            risk
+        console.error(
+            "AI CONNECTION ERROR:",
+            error
         );
+
+
+        document.getElementById(
+            "diagnosisTitle"
+        ).innerText =
+            "AI CONNECTION ERROR";
+
+
+        document.getElementById(
+            "diagnosisText"
+        ).innerText =
+            "Unable to connect to the NWC AI backend.";
+
+
+        document.getElementById(
+            "recommendationText"
+        ).innerText =
+            "Check the AI server connection and try again.";
+
+
+        statusBox.className =
+            "diagnosis-status critical-status";
+
+
+        statusBox.innerText =
+            "● AI OFFLINE";
 
     }
 
 }
-
-
-
-/* =====================================================
-   ADD ALERT TO DASHBOARD
-===================================================== */
 
 function addAlert(
     device,
