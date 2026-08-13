@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>NWC Smart Network Monitoring</title>
+    <title data-i18n="page_title">مراقبة الشبكة الذكية - شركة المياه الوطنية</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
@@ -21,16 +25,16 @@ function enterDashboard() {
     <div id="welcome-screen">
     <img src="nwc-logo.png" alt="National Water Company Logo">
 
-    <h1>NWC Smart Network Monitoring</h1>
+    <h1 data-i18n="app_title">مراقبة الشبكة الذكية NWC</h1>
 
-    <p>AI-Powered Network Anomaly Detection System</p>
+    <p data-i18n="welcome_subtitle">نظام كشف أعطال الشبكة بالذكاء الاصطناعي</p>
 
-    <button onclick="enterDashboard()">
-        Enter Dashboard
+    <button onclick="enterDashboard()" data-i18n="enter_dashboard">
+        دخول للوحة التحكم
     </button>
 
-    <div class="creator">
-        Created by Eng. Wasayf Alfarraj
+    <div class="creator" data-i18n="creator_credit">
+        تصميم: المهندسة وصايف الفراج
     </div>
 </div>
 
@@ -44,7 +48,7 @@ function enterDashboard() {
 
             <div>
                 <h2>NWC</h2>
-                <span>Smart Monitoring</span>
+                <span data-i18n="brand_subtitle">مراقبة ذكية</span>
             </div>
         </div>
 
@@ -52,22 +56,22 @@ function enterDashboard() {
 
             <button class="nav-item active" onclick="showPage('overview', this)">
                 <span>⌂</span>
-                Overview
+                <span data-i18n="nav_overview">نظرة عامة</span>
             </button>
 
             <button class="nav-item" onclick="showPage('devices', this)">
                 <span>◉</span>
-                Devices
+                <span data-i18n="nav_devices">الأجهزة</span>
             </button>
 
             <button class="nav-item" onclick="showPage('alerts', this)">
                 <span>⚠</span>
-                Alerts
+                <span data-i18n="nav_alerts">التنبيهات</span>
             </button>
 
             <button class="nav-item" onclick="showPage('simulator', this)">
                 <span>⚡</span>
-                Failure Simulator
+                <span data-i18n="nav_simulator">محاكي الأعطال</span>
             </button>
 
         </nav>
@@ -76,13 +80,17 @@ function enterDashboard() {
 
             <div class="online">
                 <span class="online-dot"></span>
-                System Online
+                <span data-i18n="sidebar_system_online">النظام متصل</span>
             </div>
 
             <small>
-                AI Engine<br>
-                Isolation Forest
+                <span data-i18n="sidebar_ai_engine">محرك الذكاء الاصطناعي</span><br>
+                <span data-i18n="sidebar_isolation_forest">Isolation Forest</span>
             </small>
+
+            <button id="langToggleBtn" class="lang-toggle" onclick="toggleLanguage()">
+                English
+            </button>
 
         </div>
 
@@ -96,20 +104,20 @@ function enterDashboard() {
         <header class="topbar">
 
             <div>
-                <p class="eyebrow">NETWORK OPERATIONS CENTER</p>
+                <p class="eyebrow" data-i18n="topbar_eyebrow">مركز عمليات الشبكة</p>
 
-                <h1>
-                    NWC Smart Network Monitoring
+                <h1 data-i18n="app_title">
+                    مراقبة الشبكة الذكية NWC
                 </h1>
 
-                <p class="subtitle">
-                    AI-powered network anomaly detection & incident analysis
+                <p class="subtitle" data-i18n="topbar_subtitle">
+                    كشف أعطال الشبكة وتحليل الحوادث بالذكاء الاصطناعي
                 </p>
             </div>
 
             <div class="system-status">
                 <span class="online-dot"></span>
-                LIVE MONITORING
+                <span data-i18n="live_monitoring">مراقبة مباشرة</span>
             </div>
 
         </header>
@@ -122,8 +130,8 @@ function enterDashboard() {
             <div class="metrics">
 
                 <div class="metric">
-                    <div class="metric-label">
-                        NETWORK HEALTH
+                    <div class="metric-label" data-i18n="metric_network_health">
+                        صحة الشبكة
                     </div>
 
                     <div class="metric-value">
@@ -131,15 +139,15 @@ function enterDashboard() {
                     </div>
 
                     <div class="positive">
-                        ● Stable
+                        ● <span data-i18n="metric_stable">مستقرة</span>
                     </div>
                 </div>
 
 
                 <div class="metric">
 
-                    <div class="metric-label">
-                        ACTIVE ALERTS
+                    <div class="metric-label" data-i18n="metric_active_alerts">
+                        التنبيهات النشطة
                     </div>
 
                     <div class="metric-value" id="alertCount">
@@ -147,7 +155,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="negative">
-                        ● Requires attention
+                        ● <span data-i18n="metric_requires_attention">تحتاج انتباه</span>
                     </div>
 
                 </div>
@@ -155,8 +163,8 @@ function enterDashboard() {
 
                 <div class="metric">
 
-                    <div class="metric-label">
-                        NETWORK DEVICES
+                    <div class="metric-label" data-i18n="metric_network_devices">
+                        أجهزة الشبكة
                     </div>
 
                     <div class="metric-value">
@@ -164,7 +172,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="positive">
-                        ● Connected
+                        ● <span data-i18n="metric_connected">متصلة</span>
                     </div>
 
                 </div>
@@ -172,8 +180,8 @@ function enterDashboard() {
 
                 <div class="metric">
 
-                    <div class="metric-label">
-                        AI DETECTION
+                    <div class="metric-label" data-i18n="metric_ai_detection">
+                        دقة الكشف بالذكاء الاصطناعي
                     </div>
 
                     <div class="metric-value">
@@ -181,7 +189,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="positive">
-                        ● Model active
+                        ● <span data-i18n="metric_model_active">النموذج فعّال</span>
                     </div>
 
                 </div>
@@ -198,17 +206,17 @@ function enterDashboard() {
                     <div class="card-header">
 
                         <div>
-                            <p class="card-kicker">
-                                NETWORK MAP
+                            <p class="card-kicker" data-i18n="card_network_map">
+                                خريطة الشبكة
                             </p>
 
-                            <h2>
-                                Network Topology
+                            <h2 data-i18n="card_network_topology">
+                                هيكل الشبكة
                             </h2>
                         </div>
 
-                        <span class="badge green">
-                            7 Devices
+                        <span class="badge green" data-i18n="badge_devices_count">
+                            7 أجهزة
                         </span>
 
                     </div>
@@ -223,7 +231,7 @@ function enterDashboard() {
 
                                 <strong>R1-CORE</strong>
 
-                                <span>CORE ROUTER</span>
+                                <span data-i18n="device_core_router_tag">جهاز التوجيه الرئيسي</span>
                             </div>
 
                         </div>
@@ -248,7 +256,7 @@ function enterDashboard() {
 
                                 <strong>R2-RIYADH</strong>
 
-                                <span>BRANCH</span>
+                                <span data-i18n="device_branch_tag">فرع</span>
 
                             </div>
 
@@ -261,7 +269,7 @@ function enterDashboard() {
 
                                 <strong>R3-QASSIM</strong>
 
-                                <span>BRANCH</span>
+                                <span data-i18n="device_branch_tag">فرع</span>
 
                             </div>
 
@@ -274,7 +282,7 @@ function enterDashboard() {
 
                                 <strong>R4-HAIL</strong>
 
-                                <span>BRANCH</span>
+                                <span data-i18n="device_branch_tag">فرع</span>
 
                             </div>
 
@@ -287,12 +295,12 @@ function enterDashboard() {
 
                         <span>
                             <i class="dot green-dot"></i>
-                            Normal
+                            <span data-i18n="legend_normal">طبيعي</span>
                         </span>
 
                         <span>
                             <i class="dot red-dot"></i>
-                            Critical
+                            <span data-i18n="legend_critical">حرج</span>
                         </span>
 
                     </div>
@@ -307,18 +315,18 @@ function enterDashboard() {
 
                         <div>
 
-                            <p class="card-kicker">
-                                REAL-TIME
+                            <p class="card-kicker" data-i18n="card_realtime">
+                                لحظي
                             </p>
 
-                            <h2>
-                                Active Alerts
+                            <h2 data-i18n="card_active_alerts">
+                                التنبيهات النشطة
                             </h2>
 
                         </div>
 
-                        <span class="badge red">
-                            3 Alerts
+                        <span class="badge red" data-i18n="badge_alerts_count">
+                            3 تنبيهات
                         </span>
 
                     </div>
@@ -338,12 +346,12 @@ function enterDashboard() {
                                     R4-HAIL
                                 </strong>
 
-                                <p>
-                                    High CPU detected
+                                <p data-i18n="alert_high_cpu_detected">
+                                    تم رصد ارتفاع في المعالج
                                 </p>
 
                                 <small>
-                                    Risk Score: 87/100
+                                    <span data-i18n="risk_score_label">درجة الخطورة:</span> 87/100
                                 </small>
 
                             </div>
@@ -367,12 +375,12 @@ function enterDashboard() {
                                     SW-QASSIM
                                 </strong>
 
-                                <p>
-                                    Packet Loss
+                                <p data-i18n="issue_packet_loss">
+                                    فقدان حزم البيانات
                                 </p>
 
                                 <small>
-                                    Risk Score: 62/100
+                                    <span data-i18n="risk_score_label">درجة الخطورة:</span> 62/100
                                 </small>
 
                             </div>
@@ -396,12 +404,12 @@ function enterDashboard() {
                                     R1-CORE
                                 </strong>
 
-                                <p>
-                                    High Latency
+                                <p data-i18n="issue_high_latency">
+                                    ارتفاع في زمن الاستجابة
                                 </p>
 
                                 <small>
-                                    Risk Score: 48/100
+                                    <span data-i18n="risk_score_label">درجة الخطورة:</span> 48/100
                                 </small>
 
                             </div>
@@ -426,12 +434,12 @@ function enterDashboard() {
 
                     <div>
 
-                        <p class="card-kicker">
-                            PERFORMANCE
+                        <p class="card-kicker" data-i18n="card_performance">
+                            الأداء
                         </p>
 
-                        <h2>
-                            Network Performance
+                        <h2 data-i18n="card_network_performance">
+                            أداء الشبكة
                         </h2>
 
                     </div>
@@ -459,16 +467,16 @@ function enterDashboard() {
 
             <div class="section-title">
 
-                <p class="card-kicker">
-                    INFRASTRUCTURE
+                <p class="card-kicker" data-i18n="section_infrastructure">
+                    البنية التحتية
                 </p>
 
-                <h2>
-                    Network Devices
+                <h2 data-i18n="section_network_devices">
+                    أجهزة الشبكة
                 </h2>
 
-                <p>
-                    Monitor the health of connected network devices.
+                <p data-i18n="section_devices_desc">
+                    متابعة سلامة أجهزة الشبكة المتصلة.
                 </p>
 
             </div>
@@ -485,17 +493,17 @@ function enterDashboard() {
                         </div>
 
                         <span class="status-pill normal-pill">
-                            ● Online
+                            ● <span data-i18n="device_status_online">متصل</span>
                         </span>
 
                     </div>
 
                     <h3>R1-CORE</h3>
 
-                    <p>Core Router</p>
+                    <p data-i18n="device_core_router">جهاز التوجيه الرئيسي</p>
 
                     <div class="device-stat">
-                        <span>CPU</span>
+                        <span data-i18n="device_stat_cpu">المعالج</span>
                         <strong>34%</strong>
                     </div>
 
@@ -504,7 +512,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="device-stat">
-                        <span>Memory</span>
+                        <span data-i18n="device_stat_memory">الذاكرة</span>
                         <strong>48%</strong>
                     </div>
 
@@ -524,17 +532,17 @@ function enterDashboard() {
                         </div>
 
                         <span class="status-pill normal-pill">
-                            ● Online
+                            ● <span data-i18n="device_status_online">متصل</span>
                         </span>
 
                     </div>
 
                     <h3>R2-RIYADH</h3>
 
-                    <p>Branch Router</p>
+                    <p data-i18n="device_branch_router">جهاز توجيه فرعي</p>
 
                     <div class="device-stat">
-                        <span>CPU</span>
+                        <span data-i18n="device_stat_cpu">المعالج</span>
                         <strong>41%</strong>
                     </div>
 
@@ -543,7 +551,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="device-stat">
-                        <span>Memory</span>
+                        <span data-i18n="device_stat_memory">الذاكرة</span>
                         <strong>52%</strong>
                     </div>
 
@@ -563,17 +571,17 @@ function enterDashboard() {
                         </div>
 
                         <span class="status-pill normal-pill">
-                            ● Online
+                            ● <span data-i18n="device_status_online">متصل</span>
                         </span>
 
                     </div>
 
                     <h3>R3-QASSIM</h3>
 
-                    <p>Branch Router</p>
+                    <p data-i18n="device_branch_router">جهاز توجيه فرعي</p>
 
                     <div class="device-stat">
-                        <span>CPU</span>
+                        <span data-i18n="device_stat_cpu">المعالج</span>
                         <strong>38%</strong>
                     </div>
 
@@ -582,7 +590,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="device-stat">
-                        <span>Memory</span>
+                        <span data-i18n="device_stat_memory">الذاكرة</span>
                         <strong>46%</strong>
                     </div>
 
@@ -602,17 +610,17 @@ function enterDashboard() {
                         </div>
 
                         <span class="status-pill critical-pill">
-                            ● Alert
+                            ● <span data-i18n="device_status_alert">تنبيه</span>
                         </span>
 
                     </div>
 
                     <h3>R4-HAIL</h3>
 
-                    <p>Branch Router</p>
+                    <p data-i18n="device_branch_router">جهاز توجيه فرعي</p>
 
                     <div class="device-stat">
-                        <span>CPU</span>
+                        <span data-i18n="device_stat_cpu">المعالج</span>
                         <strong id="hailCPU">96%</strong>
                     </div>
 
@@ -621,7 +629,7 @@ function enterDashboard() {
                     </div>
 
                     <div class="device-stat">
-                        <span>Risk</span>
+                        <span data-i18n="device_stat_risk">الخطورة</span>
                         <strong id="hailRisk">87/100</strong>
                     </div>
 
@@ -637,16 +645,16 @@ function enterDashboard() {
 
             <div class="section-title">
 
-                <p class="card-kicker">
-                    INCIDENT CENTER
+                <p class="card-kicker" data-i18n="section_incident_center">
+                    مركز الحوادث
                 </p>
 
-                <h2>
-                    Network Alerts
+                <h2 data-i18n="section_network_alerts">
+                    تنبيهات الشبكة
                 </h2>
 
-                <p>
-                    AI-detected incidents and recommended actions.
+                <p data-i18n="section_alerts_desc">
+                    حوادث مكتشفة بالذكاء الاصطناعي مع الإجراءات الموصى بها.
                 </p>
 
             </div>
@@ -656,10 +664,10 @@ function enterDashboard() {
 
                 <div class="table-header">
 
-                    <span>DEVICE</span>
-                    <span>ISSUE</span>
-                    <span>RISK</span>
-                    <span>STATUS</span>
+                    <span data-i18n="table_device">الجهاز</span>
+                    <span data-i18n="table_issue">المشكلة</span>
+                    <span data-i18n="table_risk">الخطورة</span>
+                    <span data-i18n="table_status">الحالة</span>
 
                 </div>
 
@@ -668,16 +676,16 @@ function enterDashboard() {
 
                     <strong>R4-HAIL</strong>
 
-                    <span>
-                        High CPU
+                    <span data-i18n="issue_high_cpu">
+                        ارتفاع المعالج
                     </span>
 
                     <b class="risk-high">
                         87/100
                     </b>
 
-                    <span class="status-pill critical-pill">
-                        Critical
+                    <span class="status-pill critical-pill" data-i18n="status_critical">
+                        حرج
                     </span>
 
                 </div>
@@ -687,16 +695,16 @@ function enterDashboard() {
 
                     <strong>SW-QASSIM</strong>
 
-                    <span>
-                        Packet Loss
+                    <span data-i18n="issue_packet_loss_short">
+                        فقدان حزم البيانات
                     </span>
 
                     <b class="risk-medium">
                         62/100
                     </b>
 
-                    <span class="status-pill warning-pill">
-                        High
+                    <span class="status-pill warning-pill" data-i18n="status_high">
+                        مرتفع
                     </span>
 
                 </div>
@@ -706,16 +714,16 @@ function enterDashboard() {
 
                     <strong>R1-CORE</strong>
 
-                    <span>
-                        High Latency
+                    <span data-i18n="issue_high_latency_short">
+                        ارتفاع زمن الاستجابة
                     </span>
 
                     <b class="risk-medium">
                         48/100
                     </b>
 
-                    <span class="status-pill warning-pill">
-                        Medium
+                    <span class="status-pill warning-pill" data-i18n="status_medium">
+                        متوسط
                     </span>
 
                 </div>
@@ -730,17 +738,16 @@ function enterDashboard() {
 
             <div class="section-title">
 
-                <p class="card-kicker">
-                    AI SIMULATION LAB
+                <p class="card-kicker" data-i18n="section_ai_sim_lab">
+                    مختبر المحاكاة الذكي
                 </p>
 
-                <h2>
-                    Live Failure Simulator
+                <h2 data-i18n="section_live_failure_simulator">
+                    محاكي الأعطال المباشر
                 </h2>
 
-                <p>
-                    Inject a network failure and observe how the AI
-                    monitoring system responds.
+                <p data-i18n="section_simulator_desc">
+                    قم بمحاكاة عطل في الشبكة وراقب كيف يتعامل نظام المراقبة الذكي معه.
                 </p>
 
             </div>
@@ -750,12 +757,12 @@ function enterDashboard() {
 
                 <div class="card simulator-controls">
 
-                    <h3>
-                        ⚡ Inject Network Failure
+                    <h3 data-i18n="simulator_inject_title">
+                        ⚡ محاكاة عطل في الشبكة
                     </h3>
 
-                    <label>
-                        Network Device
+                    <label data-i18n="label_network_device">
+                        جهاز الشبكة
                     </label>
 
                     <select id="deviceSelect">
@@ -768,34 +775,34 @@ function enterDashboard() {
                     </select>
 
 
-                    <label>
-                        Failure Type
+                    <label data-i18n="label_failure_type">
+                        نوع العطل
                     </label>
 
                     <select id="failureSelect">
 
-                        <option value="normal">
-                            Normal
+                        <option value="normal" data-i18n="option_normal">
+                            طبيعي
                         </option>
 
-                        <option value="cpu">
-                            High CPU
+                        <option value="cpu" data-i18n="option_high_cpu">
+                            ارتفاع المعالج
                         </option>
 
-                        <option value="memory">
-                            High Memory
+                        <option value="memory" data-i18n="option_high_memory">
+                            ارتفاع الذاكرة
                         </option>
 
-                        <option value="latency">
-                            High Latency
+                        <option value="latency" data-i18n="option_high_latency">
+                            ارتفاع زمن الاستجابة
                         </option>
 
-                        <option value="loss">
-                            Packet Loss
+                        <option value="loss" data-i18n="option_packet_loss">
+                            فقدان حزم البيانات
                         </option>
 
-                        <option value="errors">
-                            Interface Errors
+                        <option value="errors" data-i18n="option_interface_errors">
+                            أخطاء في المنافذ
                         </option>
 
                     </select>
@@ -804,8 +811,9 @@ function enterDashboard() {
                     <button
                         class="analyze-btn"
                         onclick="analyzeFailure()"
+                        data-i18n="btn_analyze"
                     >
-                        🚨 ANALYZE NETWORK
+                        🚨 تحليل الشبكة
                     </button>
 
                 </div>
@@ -817,12 +825,12 @@ function enterDashboard() {
 
                         <div>
 
-                            <p class="card-kicker">
-                                AI DIAGNOSIS
+                            <p class="card-kicker" data-i18n="diagnosis_kicker">
+                                تشخيص الذكاء الاصطناعي
                             </p>
 
-                            <h2 id="diagnosisTitle">
-                                System Ready
+                            <h2 id="diagnosisTitle" data-i18n="diagnosis_system_ready">
+                                النظام جاهز
                             </h2>
 
                         </div>
@@ -830,8 +838,9 @@ function enterDashboard() {
                         <div
                             id="diagnosisStatus"
                             class="diagnosis-status normal-status"
+                            data-i18n="diagnosis_status_normal"
                         >
-                            ● NORMAL
+                            ● طبيعي
                         </div>
 
                     </div>
@@ -841,8 +850,8 @@ function enterDashboard() {
 
                         <div>
 
-                            <span>
-                                Risk Score
+                            <span data-i18n="risk_score_title">
+                                درجة الخطورة
                             </span>
 
                             <strong id="riskScore">
@@ -864,13 +873,12 @@ function enterDashboard() {
 
                     <div class="diagnosis-box">
 
-                        <h4>
-                            What happened?
+                        <h4 data-i18n="diagnosis_what_happened">
+                            ماذا حدث؟
                         </h4>
 
-                        <p id="diagnosisText">
-                            Select a failure scenario and run
-                            the analysis to see the AI diagnosis.
+                        <p id="diagnosisText" data-i18n="diagnosis_placeholder">
+                            اختر سيناريو العطل وشغّل التحليل لعرض تشخيص الذكاء الاصطناعي.
                         </p>
 
                     </div>
@@ -878,12 +886,12 @@ function enterDashboard() {
 
                     <div class="recommendation">
 
-                        <h4>
-                            🛠 Recommended Action
+                        <h4 data-i18n="recommendation_title">
+                            🛠 الإجراء الموصى به
                         </h4>
 
-                        <p id="recommendationText">
-                            No action required.
+                        <p id="recommendationText" data-i18n="recommendation_placeholder">
+                            لا يوجد إجراء مطلوب.
                         </p>
 
                     </div>
@@ -898,12 +906,12 @@ function enterDashboard() {
         <!-- FOOTER -->
         <footer>
 
-            <span>
-                NWC Smart Network Monitoring
+            <span data-i18n="footer_brand">
+                مراقبة الشبكة الذكية NWC
             </span>
                 
-            <span>
-                Created by Eng. Wasayf Alfarraj • Computer Engineering
+            <span data-i18n="footer_creator">
+                تصميم: المهندسة وصايف الفراج • هندسة حاسب
             </span>
 
         </footer>
@@ -913,6 +921,7 @@ function enterDashboard() {
 </div>
 
 
+<script src="lang.js"></script>
 <script src="script.js"></script>
 
 </body>

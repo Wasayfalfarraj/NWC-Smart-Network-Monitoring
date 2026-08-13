@@ -1,50 +1,54 @@
 // =====================================================
 // NWC SMART NETWORK MONITORING
-// Interactive Dashboard
+// Interactive Dashboard + AI Anomaly Detection
 // =====================================================
 
 
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
+// =====================================================
+// AI API
+// =====================================================
+
+const AI_API_URL =
+    "https://nwc-smart-network-monitoring.onrender.com";
+
+
+// =====================================================
+// PAGE NAVIGATION
+// =====================================================
 
 function showPage(pageId, button) {
 
     document
         .querySelectorAll(".page")
         .forEach(page => {
-
             page.classList.remove("active-page");
-
         });
 
+    const selectedPage =
+        document.getElementById(pageId);
 
-    document
-        .getElementById(pageId)
-        .classList.add("active-page");
-
+    if (selectedPage) {
+        selectedPage.classList.add("active-page");
+    }
 
     document
         .querySelectorAll(".nav-item")
         .forEach(item => {
-
             item.classList.remove("active");
-
         });
 
-
-    button.classList.add("active");
+    if (button) {
+        button.classList.add("active");
+    }
 }
 
 
-
-/* =====================================================
-   NETWORK CHART
-===================================================== */
+// =====================================================
+// NETWORK CHART
+// =====================================================
 
 const chartCanvas =
     document.getElementById("networkChart");
-
 
 const labels = [
     "10:00",
@@ -61,7 +65,6 @@ const labels = [
     "10:55"
 ];
 
-
 const cpuData = [
     32,
     35,
@@ -76,7 +79,6 @@ const cpuData = [
     38,
     40
 ];
-
 
 const memoryData = [
     42,
@@ -93,255 +95,268 @@ const memoryData = [
     50
 ];
 
+let networkChart = null;
 
-const networkChart =
-    new Chart(chartCanvas, {
 
-        type: "line",
+// Only create chart if canvas exists
+if (chartCanvas) {
 
-        data: {
+    networkChart =
+        new Chart(
+            chartCanvas,
+            {
+                type: "line",
 
-            labels: labels,
+                data: {
 
-            datasets: [
+                    labels: labels,
 
-                {
-                    label: "CPU Usage %",
-                    data: cpuData,
+                    datasets: [
 
-                    tension: 0.4,
+                        {
+                            label: "CPU Usage %",
+                            data: cpuData,
 
-                    borderWidth: 2,
+                            tension: 0.4,
 
-                    pointRadius: 2
+                            borderWidth: 2,
+
+                            pointRadius: 2
+                        },
+
+                        {
+                            label: "Memory Usage %",
+                            data: memoryData,
+
+                            tension: 0.4,
+
+                            borderWidth: 2,
+
+                            pointRadius: 2
+                        }
+
+                    ]
+
                 },
 
-                {
-                    label: "Memory Usage %",
-                    data: memoryData,
+                options: {
 
-                    tension: 0.4,
+                    responsive: true,
 
-                    borderWidth: 2,
+                    maintainAspectRatio: false,
 
-                    pointRadius: 2
-                }
+                    plugins: {
 
-            ]
+                        legend: {
+                            position: "bottom"
+                        }
 
-        },
+                    },
 
-        options: {
+                    scales: {
 
-            responsive: true,
+                        y: {
 
-            maintainAspectRatio: false,
+                            beginAtZero: true,
 
-            plugins: {
+                            max: 100
 
-                legend: {
-                    position: "bottom"
-                }
+                        }
 
-            },
+                    }
 
-            scales: {
-
-                y: {
-                    beginAtZero: true,
-
-                    max: 100
                 }
 
             }
+        );
 
-        }
-
-    });
-
+}
 
 
-/* =====================================================
-   FAILURE SIMULATOR
-===================================================== */
+// =====================================================
+// REAL AI FAILURE ANALYSIS
+// =====================================================
 
-function analyzeFailure() {
+async function analyzeFailure() {
+
+    const deviceElement =
+        document.getElementById("deviceSelect");
+
+    const failureElement =
+        document.getElementById("failureSelect");
+
+
+    if (!deviceElement || !failureElement) {
+
+        console.error(
+            "Device or failure selector not found."
+        );
+
+        return;
+
+    }
+
 
     const device =
-        document.getElementById(
-            "deviceSelect"
-        ).value;
-
+        deviceElement.value;
 
     const failure =
-        document.getElementById(
-            "failureSelect"
-        ).value;
+        failureElement.value;
 
 
-    let risk = 0;
+    // =================================================
+    // DEFAULT NETWORK DATA
+    // =================================================
 
-    let issue = "Normal";
+    let networkData = {
 
-    let diagnosis =
-        "No significant network anomaly detected.";
+        cpu_usage: 35,
 
-    let recommendation =
-        "No immediate action required. Continue monitoring.";
+        memory_usage: 45,
 
-    let status =
-        "● NORMAL";
+        bandwidth_mbps: 100,
 
+        latency_ms: 20,
 
-    /* -------------------------------
-       NORMAL
-    -------------------------------- */
+        packet_loss_percent: 0.5,
 
-    if (failure === "normal") {
+        interface_errors: 1
 
-        risk = 0;
-
-        issue = "Normal";
-
-        diagnosis =
-            device +
-            " is operating within normal performance thresholds.";
-
-        recommendation =
-            "Continue normal monitoring.";
-
-    }
+    };
 
 
-    /* -------------------------------
-       HIGH CPU
-    -------------------------------- */
+    // =================================================
+    // FAILURE SIMULATION
+    // =================================================
 
-    else if (failure === "cpu") {
+    if (failure === "cpu") {
 
-        risk = 87;
+        networkData = {
 
-        issue = "High CPU";
+            cpu_usage: 97,
 
-        diagnosis =
-            "The AI detected abnormal CPU utilization on " +
-            device +
-            ". The device may be experiencing excessive " +
-            "processing load or abnormal traffic.";
+            memory_usage: 53,
 
-        recommendation =
-            "Inspect CPU-intensive processes, traffic load, " +
-            "and current network utilization.";
+            bandwidth_mbps: 104,
+
+            latency_ms: 21,
+
+            packet_loss_percent: 0.2,
+
+            interface_errors: 1
+
+        };
 
     }
 
-
-    /* -------------------------------
-       HIGH MEMORY
-    -------------------------------- */
 
     else if (failure === "memory") {
 
-        risk = 78;
+        networkData = {
 
-        issue = "High Memory";
+            cpu_usage: 42,
 
-        diagnosis =
-            "Memory utilization has exceeded the normal " +
-            "operating threshold.";
+            memory_usage: 92,
 
-        recommendation =
-            "Inspect memory-consuming processes and applications.";
+            bandwidth_mbps: 98,
+
+            latency_ms: 22,
+
+            packet_loss_percent: 0.4,
+
+            interface_errors: 1
+
+        };
 
     }
 
-
-    /* -------------------------------
-       HIGH LATENCY
-    -------------------------------- */
 
     else if (failure === "latency") {
 
-        risk = 72;
+        networkData = {
 
-        issue = "High Latency";
+            cpu_usage: 38,
 
-        diagnosis =
-            "The AI detected abnormal network latency. " +
-            "This may indicate congestion, routing problems, " +
-            "or an overloaded interface.";
+            memory_usage: 46,
 
-        recommendation =
-            "Check routing paths, congestion, and interface utilization.";
+            bandwidth_mbps: 95,
+
+            latency_ms: 420,
+
+            packet_loss_percent: 0.6,
+
+            interface_errors: 2
+
+        };
 
     }
 
-
-    /* -------------------------------
-       PACKET LOSS
-    -------------------------------- */
 
     else if (failure === "loss") {
 
-        risk = 82;
+        networkData = {
 
-        issue = "Packet Loss";
+            cpu_usage: 41,
 
-        diagnosis =
-            "Abnormal packet loss was detected. " +
-            "This may indicate link degradation, congestion, " +
-            "or interface problems.";
+            memory_usage: 48,
 
-        recommendation =
-            "Inspect interface errors, link quality, and congestion.";
+            bandwidth_mbps: 87,
+
+            latency_ms: 24,
+
+            packet_loss_percent: 25,
+
+            interface_errors: 2
+
+        };
 
     }
 
-
-    /* -------------------------------
-       INTERFACE ERRORS
-    -------------------------------- */
 
     else if (failure === "errors") {
 
-        risk = 91;
+        networkData = {
 
-        issue = "Interface Errors";
+            cpu_usage: 39,
 
-        diagnosis =
-            "A high number of interface errors was detected. " +
-            "This could indicate a physical link or interface issue.";
+            memory_usage: 44,
 
-        recommendation =
-            "Inspect the physical interface, cable, duplex settings, " +
-            "and link configuration.";
+            bandwidth_mbps: 91,
+
+            latency_ms: 21,
+
+            packet_loss_percent: 0.5,
+
+            interface_errors: 90
+
+        };
 
     }
 
 
-    /* =================================================
-       UPDATE UI
-    ================================================= */
+    // =================================================
+    // CHECK DASHBOARD ELEMENTS
+    // =================================================
 
-    document.getElementById(
-        "diagnosisTitle"
-    ).innerText = issue;
+    const diagnosisTitle =
+        document.getElementById(
+            "diagnosisTitle"
+        );
 
+    const riskScoreElement =
+        document.getElementById(
+            "riskScore"
+        );
 
-    document.getElementById(
-        "riskScore"
-    ).innerText = risk;
+    const diagnosisText =
+        document.getElementById(
+            "diagnosisText"
+        );
 
-
-    document.getElementById(
-        "diagnosisText"
-    ).innerText = diagnosis;
-
-
-    document.getElementById(
-        "recommendationText"
-    ).innerText = recommendation;
-
+    const recommendationText =
+        document.getElementById(
+            "recommendationText"
+        );
 
     const statusBox =
         document.getElementById(
@@ -349,75 +364,421 @@ function analyzeFailure() {
         );
 
 
-    statusBox.className =
-        "diagnosis-status";
+    // =================================================
+    // ANALYZING STATE
+    // =================================================
 
+    if (diagnosisTitle) {
 
-    /* =================================================
-       STATUS LEVEL
-    ================================================= */
-
-    if (risk >= 75) {
-
-        statusBox.classList.add(
-            "critical-status"
-        );
-
-        statusBox.innerText =
-            "● CRITICAL";
+        diagnosisTitle.innerText =
+            "AI ANALYZING...";
 
     }
 
-    else if (risk >= 45) {
 
-        statusBox.classList.add(
-            "warning-status"
-        );
+    if (riskScoreElement) {
 
-        statusBox.innerText =
-            "● HIGH RISK";
+        riskScoreElement.innerText =
+            "...";
 
     }
 
-    else {
 
-        statusBox.classList.add(
-            "normal-status"
-        );
+    if (diagnosisText) {
 
-        statusBox.innerText =
-            "● NORMAL";
+        diagnosisText.innerText =
+            "Isolation Forest is analyzing network telemetry...";
+
     }
 
 
-    /* =================================================
-       UPDATE TOPOLOGY
-    ================================================= */
+    if (recommendationText) {
 
-    const deviceElement =
-        document.getElementById(device);
+        recommendationText.innerText =
+            "Please wait for the AI prediction.";
 
-
-    if (deviceElement) {
-
-        deviceElement.classList.remove(
-            "normal",
-            "critical"
-        );
+    }
 
 
-        if (risk >= 75) {
+    if (statusBox) {
 
-            deviceElement.classList.add(
-                "critical"
+        statusBox.className =
+            "diagnosis-status";
+
+        statusBox.innerText =
+            "● ANALYZING";
+
+    }
+
+
+    // =================================================
+    // SEND DATA TO REAL AI API
+    // =================================================
+
+    try {
+
+        const response =
+            await fetch(
+                `${AI_API_URL}/predict`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            networkData
+                        )
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `AI API Error: ${response.status}`
             );
 
         }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "REAL AI RESULT:",
+            result
+        );
+
+
+        // =================================================
+        // AI RESULT
+        // =================================================
+
+        const risk =
+            Math.round(
+                result.risk_score
+            );
+
+
+        const isAnomaly =
+            result.status === "ANOMALY";
+
+
+        let issue =
+            "Normal";
+
+
+        let diagnosis =
+            "No significant network anomaly detected.";
+
+
+        let recommendation =
+            "No immediate action required. Continue monitoring.";
+
+
+        // =================================================
+        // ISSUE IDENTIFICATION
+        // =================================================
+
+        if (failure === "cpu") {
+
+            issue =
+                "High CPU";
+
+            diagnosis =
+                `The AI analyzed ${device} and detected abnormal CPU behavior. CPU utilization is ${networkData.cpu_usage}%.`;
+
+            recommendation =
+                "Inspect CPU-intensive processes, traffic load, and current network utilization.";
+
+        }
+
+
+        else if (failure === "memory") {
+
+            issue =
+                "High Memory";
+
+            diagnosis =
+                `The AI analyzed ${device} and detected abnormal memory behavior. Memory utilization is ${networkData.memory_usage}%.`;
+
+            recommendation =
+                "Inspect memory-consuming processes and applications.";
+
+        }
+
+
+        else if (failure === "latency") {
+
+            issue =
+                "High Latency";
+
+            diagnosis =
+                `The AI detected abnormal latency on ${device}. Measured latency is ${networkData.latency_ms} ms.`;
+
+            recommendation =
+                "Check routing paths, congestion, and interface utilization.";
+
+        }
+
+
+        else if (failure === "loss") {
+
+            issue =
+                "Packet Loss";
+
+            diagnosis =
+                `The AI detected abnormal packet loss on ${device}. Packet loss is ${networkData.packet_loss_percent}%.`;
+
+            recommendation =
+                "Inspect interface errors, link quality, and network congestion.";
+
+        }
+
+
+        else if (failure === "errors") {
+
+            issue =
+                "Interface Errors";
+
+            diagnosis =
+                `The AI detected abnormal interface behavior on ${device}. Interface errors: ${networkData.interface_errors}.`;
+
+            recommendation =
+                "Inspect the physical interface, cable, duplex settings, and link configuration.";
+
+        }
+
 
         else {
 
-            deviceElement.classList.add(
-                "normal"
+            issue =
+                isAnomaly
+                    ? "AI Detected Anomaly"
+                    : "Normal";
+
+
+            diagnosis =
+                isAnomaly
+                    ? `The Isolation Forest model detected abnormal network behavior on ${device}.`
+                    : `${device} is operating within normal network behavior.`;
+
+
+            recommendation =
+                isAnomaly
+                    ? "Investigate the affected network metrics and device configuration."
+                    : "Continue normal monitoring.";
+
+        }
+
+
+        // =================================================
+        // UPDATE DASHBOARD
+        // =================================================
+
+        if (diagnosisTitle) {
+
+            diagnosisTitle.innerText =
+                issue;
+
+        }
+
+
+        if (riskScoreElement) {
+
+            riskScoreElement.innerText =
+                risk;
+
+        }
+
+
+        if (diagnosisText) {
+
+            diagnosisText.innerText =
+                diagnosis;
+
+        }
+
+
+        if (recommendationText) {
+
+            recommendationText.innerText =
+                recommendation;
+
+        }
+
+
+        // =================================================
+        // UPDATE STATUS
+        // =================================================
+
+        if (statusBox) {
+
+            statusBox.className =
+                "diagnosis-status";
+
+
+            if (
+                isAnomaly ||
+                risk >= 75
+            ) {
+
+                statusBox.classList.add(
+                    "critical-status"
+                );
+
+                statusBox.innerText =
+                    "● AI ANOMALY DETECTED";
+
+            }
+
+
+            else if (
+                risk >= 45
+            ) {
+
+                statusBox.classList.add(
+                    "warning-status"
+                );
+
+                statusBox.innerText =
+                    "● AI WARNING";
+
+            }
+
+
+            else {
+
+                statusBox.classList.add(
+                    "normal-status"
+                );
+
+                statusBox.innerText =
+                    "● AI NORMAL";
+
+            }
+
+        }
+
+
+        // =================================================
+        // UPDATE TOPOLOGY
+        // =================================================
+
+        const topologyDevice =
+            document.getElementById(
+                device
+            );
+
+
+        if (topologyDevice) {
+
+            topologyDevice.classList.remove(
+                "normal",
+                "critical"
+            );
+
+
+            if (
+                isAnomaly ||
+                risk >= 75
+            ) {
+
+                topologyDevice.classList.add(
+                    "critical"
+                );
+
+            }
+
+            else {
+
+                topologyDevice.classList.add(
+                    "normal"
+                );
+
+            }
+
+        }
+
+
+        // =================================================
+        // UPDATE HAIL CARD
+        // =================================================
+
+        if (
+            device === "R4-HAIL"
+        ) {
+
+            const hailCPU =
+                document.getElementById(
+                    "hailCPU"
+                );
+
+            const hailRisk =
+                document.getElementById(
+                    "hailRisk"
+                );
+
+            const hailBar =
+                document.getElementById(
+                    "hailBar"
+                );
+
+
+            if (hailCPU) {
+
+                hailCPU.innerText =
+                    networkData.cpu_usage +
+                    "%";
+
+            }
+
+
+            if (hailRisk) {
+
+                hailRisk.innerText =
+                    risk +
+                    "/100";
+
+            }
+
+
+            if (hailBar) {
+
+                hailBar.style.width =
+                    Math.min(
+                        risk,
+                        100
+                    ) +
+                    "%";
+
+            }
+
+        }
+
+
+        // =================================================
+        // ADD ALERT
+        // =================================================
+
+        if (
+            isAnomaly ||
+            risk >= 45
+        ) {
+
+            addAlert(
+                device,
+                issue,
+                risk
             );
 
         }
@@ -425,57 +786,64 @@ function analyzeFailure() {
     }
 
 
-    /* =================================================
-       UPDATE HAIL CARD
-    ================================================= */
+    catch (error) {
 
-    if (device === "R4-HAIL") {
-
-        document.getElementById(
-            "hailCPU"
-        ).innerText =
-            failure === "cpu"
-                ? "96%"
-                : "40%";
-
-
-        document.getElementById(
-            "hailRisk"
-        ).innerText =
-            risk + "/100";
-
-
-        document.getElementById(
-            "hailBar"
-        ).style.width =
-            failure === "cpu"
-                ? "96%"
-                : "40%";
-
-    }
-
-
-    /* =================================================
-       ADD ALERT
-    ================================================= */
-
-    if (risk >= 45) {
-
-        addAlert(
-            device,
-            issue,
-            risk
+        console.error(
+            "AI CONNECTION ERROR:",
+            error
         );
+
+
+        if (diagnosisTitle) {
+
+            diagnosisTitle.innerText =
+                "AI CONNECTION ERROR";
+
+        }
+
+
+        if (riskScoreElement) {
+
+            riskScoreElement.innerText =
+                "--";
+
+        }
+
+
+        if (diagnosisText) {
+
+            diagnosisText.innerText =
+                "Unable to connect to the NWC AI backend.";
+
+        }
+
+
+        if (recommendationText) {
+
+            recommendationText.innerText =
+                "Check the AI server connection and try again.";
+
+        }
+
+
+        if (statusBox) {
+
+            statusBox.className =
+                "diagnosis-status critical-status";
+
+            statusBox.innerText =
+                "● AI OFFLINE";
+
+        }
 
     }
 
 }
 
 
-
-/* =====================================================
-   ADD ALERT TO DASHBOARD
-===================================================== */
+// =====================================================
+// ADD ALERT TO DASHBOARD
+// =====================================================
 
 function addAlert(
     device,
@@ -487,6 +855,13 @@ function addAlert(
         document.getElementById(
             "alertsList"
         );
+
+
+    if (!alertsList) {
+
+        return;
+
+    }
 
 
     const alert =
@@ -516,7 +891,7 @@ function addAlert(
             </p>
 
             <small>
-                Risk Score: ${risk}/100
+                AI Risk Score: ${risk}/100
             </small>
 
         </div>
@@ -533,7 +908,9 @@ function addAlert(
     );
 
 
-    /* Update alert counter */
+    // =================================================
+    // UPDATE ALERT COUNTER
+    // =================================================
 
     const counter =
         document.getElementById(
@@ -541,26 +918,45 @@ function addAlert(
         );
 
 
-    let count =
-        parseInt(
-            counter.innerText
-        );
+    if (counter) {
+
+        let count =
+            parseInt(
+                counter.innerText
+            );
 
 
-    counter.innerText =
-        count + 1;
+        if (isNaN(count)) {
+
+            count = 0;
+
+        }
+
+
+        counter.innerText =
+            count + 1;
+
+    }
 
 }
 
 
+// =====================================================
+// DEVICE CHART SWITCHER
+// =====================================================
 
-/* =====================================================
-   DEVICE CHART SWITCHER
-===================================================== */
+const chartDevice =
+    document.getElementById(
+        "chartDevice"
+    );
 
-document
-    .getElementById("chartDevice")
-    .addEventListener(
+
+if (
+    chartDevice &&
+    networkChart
+) {
+
+    chartDevice.addEventListener(
         "change",
         function () {
 
@@ -574,20 +970,46 @@ document
                 );
 
 
-            networkChart.data.datasets[0].data =
+            networkChart
+                .data
+                .datasets[0]
+                .data =
                 cpuData.map(
                     value =>
                         Math.min(
-                            value + randomOffset,
+                            value +
+                            randomOffset,
                             100
                         )
                 );
-           function enterDashboard() {
-    document.getElementById("welcome-screen").style.display = "none";
-}
 
 
-            networkChart.update();
+            networkChart
+                .update();
 
         }
     );
+
+}
+
+
+// =====================================================
+// WELCOME SCREEN
+// =====================================================
+
+function enterDashboard() {
+
+    const welcomeScreen =
+        document.getElementById(
+            "welcome-screen"
+        );
+
+
+    if (welcomeScreen) {
+
+        welcomeScreen.style.display =
+            "none";
+
+    }
+
+}

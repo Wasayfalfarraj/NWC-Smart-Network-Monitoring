@@ -1155,3 +1155,84 @@ footer {
     pointer-events: auto;
     cursor: pointer;
 }
+
+
+/* =====================================================
+   LANGUAGE TOGGLE + ARABIC / RTL SUPPORT
+   ===================================================== */
+
+body[dir="rtl"] {
+    font-family:
+        "Tajawal",
+        "Segoe UI",
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+}
+
+.lang-toggle {
+    margin-top: 14px;
+    width: 100%;
+
+    padding: 9px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: #f7fafb;
+    color: var(--primary-dark);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.lang-toggle:hover {
+    background: #e7f6f7;
+}
+
+/* Mirror the fixed sidebar + main layout for RTL */
+body[dir="rtl"] .sidebar {
+    left: auto;
+    right: 0;
+
+    border-right: none;
+    border-left: 1px solid var(--border);
+}
+
+body[dir="rtl"] .main {
+    margin-left: 0;
+    margin-right: 250px;
+}
+
+body[dir="rtl"] .nav-item {
+    text-align: right;
+}
+
+body[dir="rtl"] .nav-item span:first-child {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+body[dir="rtl"] .online-dot {
+    margin-right: 0;
+    margin-left: 6px;
+}
+
+body[dir="rtl"] .brand span,
+body[dir="rtl"] .sidebar-bottom {
+    text-align: right;
+}
+
+@media (max-width: 900px) {
+
+    body[dir="rtl"] .main {
+        margin-right: 70px;
+        margin-left: 0;
+    }
+
+}
