@@ -40,6 +40,33 @@ function showPage(pageId, button) {
     if (button) {
         button.classList.add("active");
     }
+
+    // On phones/tablets the sidebar is an off-canvas drawer —
+    // close it once a destination has been picked.
+    closeSidebar();
+}
+
+
+// =====================================================
+// MOBILE SIDEBAR (off-canvas drawer)
+// =====================================================
+
+function openSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if (sidebar) sidebar.classList.add("open");
+    if (overlay) overlay.classList.add("show");
+}
+
+function closeSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if (sidebar) sidebar.classList.remove("open");
+    if (overlay) overlay.classList.remove("show");
 }
 
 

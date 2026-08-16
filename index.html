@@ -2,13 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#073b4c">
 
     <title data-i18n="page_title">مراقبة الشبكة الذكية - شركة المياه الوطنية</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
@@ -40,37 +41,45 @@ function enterDashboard() {
 
 <div class="app">
 
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
         <div class="brand">
-            <div class="brand-icon">💧</div>
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c3.5 4 6 7.4 6 10.8a6 6 0 1 1-12 0c0-3.4 2.5-6.8 6-10.8Z"/></svg>
+            </div>
 
             <div>
                 <h2>NWC</h2>
                 <span data-i18n="brand_subtitle">مراقبة ذكية</span>
             </div>
+
+            <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
         </div>
 
         <nav>
 
             <button class="nav-item active" onclick="showPage('overview', this)">
-                <span>⌂</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
                 <span data-i18n="nav_overview">نظرة عامة</span>
             </button>
 
             <button class="nav-item" onclick="showPage('devices', this)">
-                <span>◉</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="9" rx="2"/><path d="M7 19h10M9 14v5M15 14v5"/><circle cx="7" cy="9.5" r="1"/></svg>
                 <span data-i18n="nav_devices">الأجهزة</span>
             </button>
 
             <button class="nav-item" onclick="showPage('alerts', this)">
-                <span>⚠</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg>
                 <span data-i18n="nav_alerts">التنبيهات</span>
             </button>
 
             <button class="nav-item" onclick="showPage('simulator', this)">
-                <span>⚡</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
                 <span data-i18n="nav_simulator">محاكي الأعطال</span>
             </button>
 
@@ -103,16 +112,23 @@ function enterDashboard() {
         <!-- HEADER -->
         <header class="topbar">
 
-            <div>
-                <p class="eyebrow" data-i18n="topbar_eyebrow">مركز عمليات الشبكة</p>
+            <div class="topbar-title">
 
-                <h1 data-i18n="app_title">
-                    مراقبة الشبكة الذكية NWC
-                </h1>
+                <button class="menu-toggle" onclick="openSidebar()" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
 
-                <p class="subtitle" data-i18n="topbar_subtitle">
-                    كشف أعطال الشبكة وتحليل الحوادث بالذكاء الاصطناعي
-                </p>
+                <div>
+                    <p class="eyebrow" data-i18n="topbar_eyebrow">مركز عمليات الشبكة</p>
+
+                    <h1 data-i18n="app_title">
+                        مراقبة الشبكة الذكية NWC
+                    </h1>
+
+                    <p class="subtitle" data-i18n="topbar_subtitle">
+                        كشف أعطال الشبكة وتحليل الحوادث بالذكاء الاصطناعي
+                    </p>
+                </div>
             </div>
 
             <div class="system-status">
@@ -660,6 +676,7 @@ function enterDashboard() {
             </div>
 
 
+            <div class="incident-table-wrap">
             <div class="incident-table">
 
                 <div class="table-header">
@@ -728,6 +745,7 @@ function enterDashboard() {
 
                 </div>
 
+            </div>
             </div>
 
         </section>
